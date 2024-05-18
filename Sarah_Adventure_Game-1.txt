@@ -1,0 +1,447 @@
+"""
+Created on Jan 24 
+@author: sarah.kaczmarek
+"""
+"""
+DocString:
+    
+Welcome to the text adventure game based on the German fairy tale Hansel and 
+Gretel.
+
+Firstly there is an introduction and the player can choose the character he
+wants to play. After choosing the character Stage 1 of the game starts. 
+
+Stage 1: 
+The player must decide whether to start walking into the forest or to
+build a shelter. If he decides to stay and build a shelter, the game will end 
+after 2 stages. If the player decides to start walking you can play all five
+stages.
+
+Stage 2: 
+The player encounters the witch's gingerbread house. 
+They must decide whether to go inside or to avoid it.
+If the player chooses to go inside, they will be faced with a puzzle to solve
+in order to escape. 
+
+Stage 3: 
+In stage 3 the player needs to solve a riddle in order to escape the
+witch. The are three trials in order to solve it, and the player will be given
+a hint if he inputs a wrong answer. If after three trials the riddle is not
+solved the game is over. 
+
+Stage 4: 
+After solving the riddle they escaped the witches house and now need
+to decide which path to take home. There is a long safe path and a short
+dangerous path.
+If the player decides to take the long path he gets home and wins the game. 
+If the player takes the short path wolves appear and the player needs to 
+decide whether to run from them or to fight them. 
+
+Stage 5:
+In stage five the player encounters woolves and needs to either run from them 
+or fight them. If he manages to do one of both he wins the game and gets back
+home. 
+
+    
+B) Known Bugs and/or Errors:
+    None.
+    
+"""
+
+from sys import exit
+import random
+import time
+import os
+
+
+
+def introduction():
+    """The Introduction is the function that starts the game, it always starts
+    the character function next."""
+    
+    print("""Welcome to the text adventure game based on the German fairy tale
+Hansel and Gretel.The story begins with Hansel and Gretel, two young 
+children who live with their parents in a small cottage in the woods.
+Their parents, facing hard times, decide to leave the children in the 
+forest while they go in search of food and work.""")
+    print("""\nLeft alone, Hansel and Gretel must find their way home,
+while facing the dangers of the forest.""")
+    input("<Press any key to start!\n")
+    character()
+
+
+
+
+def character():   
+    
+    """The character function that allows the player to choose a character
+    After choosing the character the player is taken to stage 1
+    Choice of character does not have any impact on the games storyline
+    This function lets the player choose between two characters, Hansel or 
+    Gretel, to play as. If the player enters a valid choice, the character 
+    is assigned and the stage 1 function is called. If the player enters an 
+    invalid choice, the introduction function is called again."""
+    
+    print("*"*100) 
+
+    print("Choose your character and let the adventure begin!")
+    print("1. Hansel")
+    print("2. Gretel\n")
+    
+    player_choice = (input("Enter the number of your choice: ")).upper()
+    
+#If the player enters a valid choice, the character is assigned and the 
+# stage 1 function is called. 
+
+    if player_choice == "1" or "H" in player_choice:
+        character = "Hansel"
+        print(f"You have chosen to play as {character}")
+        stage1()
+    
+    elif player_choice == "2" or "G" in player_choice:
+        character = "Gretel"
+        print(f"You have chosen to play as {character}")
+        stage1()
+
+# if the player inputs something outside the given options, the stage restarts.
+
+    else: 
+        print("Wrong input, try again!")
+        introduction()
+
+
+
+def stage1():
+    
+    """In stage one you need to decide whether to stay in place or to start 
+    walking.If the player decides for the second option he will be taken to 
+    stage 5,making the overall game shorter."""
+    
+    print("*"*100)
+    
+    print("""Now, Hansel and Gretel are on their own and must find a way to 
+    survive. They have two options:""")
+    print("\n1. Try to find their way home.")
+    print("2. Stay and build a shelter.\n")
+    
+    choice1 = input("Do you want to start walking or stay and build a shelter?")
+
+# If the player chooses to walk, he will start stage 2 of the game.
+
+    if "1" in choice1 or "w" in choice1 or "start" in choice1:
+        print("\nYou're off to the forest!\n")
+        stage2()
+        
+# If the player decides to stay he will be taken to a later stage of the game,
+# so that the overall game only lasts 3 stages
+
+    elif "2" in choice1 or "stay" in choice1 or "shelter" in choice1 or "build" in choice1:
+        stage5()
+
+# If the player gives incorrect input, the stage restarts
+
+    else:
+        print("Thats not one of the options. Please try again.")
+        input("<Press enter to continue>\n")
+        stage1()
+        
+# in stage two the player encounters a gingerbread house
+
+def stage2():
+    """This function implements stage 2 of the game where the player encounters a 
+    gingerbread house and must decide whether to knock on the door or keep walking.
+    Depending on the player's choice, the game either proceeds to stage 3 or 
+    stage 5. If the player gives an incorrect input, the stage restarts and the 
+    player is prompted to enter a valid choice."""
+
+    print("*"*100)
+    print("""
+As you walk deeper into the forest, you come across a 
+delicious-looking gingerbread house. 
+As you approach the house, 
+you notice the windows are made of candy and the door handle is shaped 
+like a gingerbread man. 
+Both of you are very hungry, It seems too good to be true  
+Maybe you should go in and ask for food?""")
+                     
+    choice2 = input("""Do you want to:
+                   1. Knock on the door and ask for help or 
+                   2. Keep walking?""")
+    
+    if "door" in choice2 or "knock" in choice2 or "1" in choice2:
+        print(""""As you approach the gingerbread house, a thin, 
+        old woman appears. 
+        She greets you with a sly grin and invites you inside. 
+        
+        However, as soon as you enter the house, the 
+        witch quickly locks the door behind you and leads you 
+        to a cage in the corner of the room. She tells you that 
+        she has been expecting you and that she needs your help 
+        for her spell. 
+        
+        She asks you to come closer to the cage 
+        and as you do, she locks you inside. 
+        
+        You are now trapped 
+        and must find a way to escape before it's too late. """)
+        stage3()
+                    
+    elif 'keep' in choice2 or 'walking' in choice2 or "2" in choice2:
+        stage5()
+         
+ # If the player gives incorrect input, the stage restarts                                           
+    else:
+        print("Invalid command. Please try again.")
+        input("<Press enter to continue>\n")
+        stage2()                               
+                
+def stage3():
+    """Stage 3 defines a riddle and a hint. The user is then prompted to 
+    solve the riddle with a input statement and given three chances to get 
+    the correct answer. If the user inputs the correct answer, "fire", 
+    the function "stage4" is called and the game continues. If the user does 
+    not get the correct answer within three tries, the function "fail" is 
+    called."""
+    
+    print("*"*100)
+
+# The variable riddle defines the riddle that needs to be solved in order 
+# the cage.
+    riddle = """ I am not alive, but I grow; I don't have lungs, 
+    but I need air; I don't have a mouth, but water kills me. 
+    What am I?"""
+    
+    hint = "This is a thing that produces light and heat"
+          
+    print("""As you try to find a way out of the cage, the witch returns.
+    She tells you: 'I have a riddle for you to solve, if you can 
+    solve it, I will let you go, but if you fail, I will keep you 
+    locked in the cage.""")
+          
+    print("The riddle is: ")
+    print(riddle)
+# defining the number of trials the player has to solve the riddle
+    trials = 3
+    while trials > 0:
+        answer = input("What is your answer? ").strip()
+            
+# if the player inputs the correct solution 'fire' stage four is started
+            
+        if answer.lower() == "fire":
+            print("Correct! The witch unlocks the cage and lets you go.")
+            stage4()
+
+# if there is a wrong answer in the input one trial is deducted 
+        else:
+            trials -= 1
+            if trials > 0:
+                print("Incorrect! You have ", trials, " more trial(s) left.")
+                print("Hint: ", hint)
+            
+# when zero trials a left the game is lost
+            else:
+                print("""Incorrect! You have no trials left. 
+                You couldn't solve the riddle. The witch cackles in triumph 
+                as she locks the cage door and leaves you trapped forever. 
+                
+                Game over.""")
+                fail()
+               
+
+            
+def stage4():
+    """This function implements stage 4 of the game, where the player has to choose between two paths.
+    If the player chooses option 1, they will take the longer but safer path and win the game.
+    If they choose option 2, they will proceed to stage 5.
+    If the player gives incorrect input, the stage restarts."""
+
+    print("*"*100)
+
+    print("""As Hansel and Gretel come to a fork in the road, they must 
+    decide which path to take. To the left, a longer and safer path winds 
+    through the forest, but it will take longer to get home. To the right, 
+    a shorter path cuts through a dark and dense part of the forest. 
+    It's likely to be quicker, but it also carries the risk of danger\n""")
+
+    choice4 = input("""Which path do you choose?
+
+    1. The long path?
+    2. The short path\n?""")
+
+    if '1' in choice4:
+
+        print("""You decide it is better to be safe and take the long path. 
+        You walk for hours until you finally see your house in the distance""")
+        win()
+
+
+    elif '2' in choice4:
+
+            stage5()
+            
+# If the player gives incorrect input, the stage restarts
+    else:
+        stage4()
+
+
+def stage5():
+    """This function defines a stage where the player has to make a choice to 
+        either run or fight in order to survive a pack of wolves. If the player 
+        chooses to run, they have to type "run run run" within 10 seconds. 
+        If the player chooses to fight, they have to type "fight fight fight" 
+        within 15 seconds. 
+        The player has three tries in each case. 
+        The game continues until the player has no more trials or they manage to
+        run/fight off the wolves successfully by typing the correct input 
+        in the allowed time. If the player wins, the "win" function is called. 
+        If the player gives the wrong input outside of the choices,
+        the stage restarts."""
+    
+    print("*"*100)
+    
+    print("""\nSuddenly, a pack of wolves emerges from the shadows, 
+surrounding you and blocking your path forward.
+You stay back-to-back, ready to defend yourselves as 
+the wolves closed in, eyes glowing in the darkness.""")
+    choice5 = input("""You have to decide what to do quickly!\n
+    
+        1. Try to run
+        2. Try to fight\n""")
+   
+    if '1' in choice5:
+        print("""You need to run as fast as you can!
+    
+  In order to run fast you need to type 'run run run' within 5 seconds.
+  You have three tries""" )
+
+#x defines the number of trials to finish the challenge, as long as x>0 the loop continues
+        x = 3
+        while x>0:
+
+#declare boolean so that code can be executed only if it is still True    
+            b = True  
+#t1 is the starting time
+            t1 = time.time()
+    
+#formatting the answer with strip and lower
+            answer = input("Type run run run in 5 seconds!").strip().lower()
+    
+# controlling for the wrong input   
+            while answer not in ["run run run"]:
+                answer = input("Invalid input! Type run run run in 5 seconds!")
+
+#t2 is the ending time
+            t2 = time.time()
+    
+# t measures the time the player takes for the input
+            t = t2 - t1
+    
+# if the player took more then 10 seconds he ran out of time
+            if t > 5:
+                    print("""You have run out of time!
+                          You have""", x, """trials left""")
+                    b = False
+                    x-=1
+#checking if the player was fast enough and gave the correct response                        
+            elif b == True and answer == 'run run run'.strip():
+                        print("""\n\nYou are fast enough and manage to 
+outrun the wolves!""")
+                        win()
+ # If the player gives incorrect input, the stage restarts               
+        else:
+            print("""You have run out of trials!""")
+            fail()
+                
+
+# if the player decides for option two, the code is identical to the first option, 
+#except for the input the user needs to give, and the time limit
+    elif '2' in choice5:
+        print("""You need to fight the wolves!
+In order to figt you need to type 'fight fight fight' within 10 seconds.
+You have three tries""" )
+        
+#x defines the number of trials to finish the challenge, as long as x>0 the loop continues  
+    x = 3
+    while x>0:
+            
+#declare boolean so that code can be executed only if it is still True
+            
+            b = True 
+        
+#t1 is the starting time
+            t1 = time.time()
+
+#formatting the answer with strip and lower
+            answer = input("Type fight fight fight in 10 seconds!").lower().strip()
+    
+# controlling for the wrong input
+            while answer not in ["fight fight fight"]:
+                answer = input("Invalid input! Type 'fight fight fight' in 15 seconds!")
+            
+#t2 is the ending time
+            t2 = time.time()
+    
+# t measures the time the player takes for the input
+            t = t2 - t1
+
+# if the player took more than 10 seconds he ran out of time and one trial is subtracted
+            if t > 10:
+                    print("""You have run out of time!
+                          You have""", x, """trials left""")
+                    b = False
+                    x=-1
+                    
+#if the player was fast enough and gave the correct response the win function is called
+            elif b == True and answer == 'fight fight fight'.strip():
+                        print('You managed to fight the wolves off!')
+                        win()
+                
+# controlling for wrong input,inside the second choice,the stage restarts
+            else:
+                print("""You have run out of trials!""")
+                fail()
+                
+# controlling for wrong input outside the choice, for the overall function
+    else:
+        print("""Thats the wrong input!Try again!""")
+        stage5()
+    
+def win():
+    """Anytime the player manages to finish the game 
+    this function is called. It calls the fail function which ends the game or
+    asks the user to play again"""
+
+    print("*"*100)
+    print("""After a long walk through the forest Hansel and Gretel finally 
+make it home. 
+    
+They find their parents waiting for them, overjoyed to see them. 
+The family reunites, and the siblings share their adventures with their 
+parents.""")
+    fail()
+    
+def fail():
+    """This function fail() implements a end game scenario, with the message 
+    "You finished the game!". The user is then prompted to input whether 
+    they want to play again (if "y" is entered) or exit the game.
+    If the user decides to play again, the introduction() function is called,
+    and if not, a message "Thank you for playing!" is displayed and the 
+    program is terminated using exit()."""
+    
+    print("*"*100)
+    print("""You finished the game!""")
+    restart = input("""Do you want to play again?\n\n\n""")
+
+#if the player answers yes, the game restarts
+    if "y" in restart:
+        introduction()
+        
+#otherwise the game ends with an exit
+    else: 
+        print("Thank you for playing!")
+        exit()
+    
+# Starting the game!
+introduction()
+
+
